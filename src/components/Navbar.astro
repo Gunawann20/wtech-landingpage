@@ -1,0 +1,28 @@
+---
+import MobileMenu from './MobileMenu.astro';
+---
+
+<nav class="absolute top-0 left-0 right-0 z-[100] bg-[#F8FAFC]/80 backdrop-blur-md border-b border-[#0F172A]/5 px-4 sm:px-6 lg:px-12 py-4 lg:py-6">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+      <div class="w-8 h-8 sm:w-10 sm:h-10 bg-[#0F172A] squircle flex items-center justify-center shrink-0">
+        <span class="text-white font-manrope font-black text-base sm:text-xl">W</span>
+      </div>
+      <span class="font-manrope font-black text-lg sm:text-2xl tracking-tighter truncate">
+        WTECH <span class="text-[#10B981]">INNOVATIONS</span>
+      </span>
+    </div>
+    <div class="hidden md:flex items-center gap-12 font-bold text-sm tracking-widest uppercase">
+      <a href="#services" class="hover:text-[#10B981] transition-colors">Services</a>
+      <a href="#process" class="hover:text-[#10B981] transition-colors">Process</a>
+      <a href="#portfolio" class="hover:text-[#10B981] transition-colors">Portfolio</a>
+      <a href="#stats" class="hover:text-[#10B981] transition-colors">Stats</a>
+    </div>
+    <div class="flex items-center gap-2 sm:gap-4">
+      <button class="hidden sm:inline-flex bg-[#0F172A] text-white px-6 lg:px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all text-sm">
+        CONSULTATION
+      </button>
+      <MobileMenu />
+    </div>
+  </div>
+</nav>

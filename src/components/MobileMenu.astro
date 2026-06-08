@@ -1,0 +1,66 @@
+<button
+  id="mobile-menu-btn"
+  type="button"
+  class="md:hidden w-10 h-10 flex items-center justify-center text-[#0F172A] hover:text-[#10B981] transition-colors"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu-drawer"
+>
+  <i id="mobile-menu-icon" class="ti ti-menu text-2xl"></i>
+</button>
+
+<div
+  id="mobile-menu-drawer"
+  class="md:hidden fixed inset-x-0 top-[73px] z-[99] bg-[#F8FAFC]/95 backdrop-blur-md border-b border-[#0F172A]/10 transform -translate-y-full opacity-0 pointer-events-none transition-all duration-300"
+  aria-hidden="true"
+>
+  <nav class="px-4 py-6 flex flex-col gap-4">
+    <a href="#services" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Services</a>
+    <a href="#process" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Process</a>
+    <a href="#portfolio" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Portfolio</a>
+    <a href="#stats" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Stats</a>
+    <button class="mt-2 bg-[#0F172A] text-white px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all w-full">
+      CONSULTATION
+    </button>
+  </nav>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const drawer = document.getElementById('mobile-menu-drawer');
+  const icon = document.getElementById('mobile-menu-icon');
+  const links = document.querySelectorAll('.mobile-nav-link');
+
+  let isOpen = false;
+
+  function closeMenu() {
+    isOpen = false;
+    drawer?.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+    drawer?.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    drawer?.setAttribute('aria-hidden', 'true');
+    btn?.setAttribute('aria-expanded', 'false');
+    btn?.setAttribute('aria-label', 'Open menu');
+    icon?.classList.remove('ti-x');
+    icon?.classList.add('ti-menu');
+  }
+
+  function openMenu() {
+    isOpen = true;
+    drawer?.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+    drawer?.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    drawer?.setAttribute('aria-hidden', 'false');
+    btn?.setAttribute('aria-expanded', 'true');
+    btn?.setAttribute('aria-label', 'Close menu');
+    icon?.classList.remove('ti-menu');
+    icon?.classList.add('ti-x');
+  }
+
+  btn?.addEventListener('click', () => {
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  links.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
