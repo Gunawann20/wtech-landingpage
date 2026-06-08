@@ -1,0 +1,19 @@
+---
+interface Props {
+  size?: 'sm' | 'md';
+  alt?: string;
+}
+
+const { size = 'md', alt = 'WTECH INNOVATIONS' } = Astro.props;
+
+const sizeClass = size === 'sm' ? 'w-8 h-8' : 'w-8 h-8 sm:w-10 sm:h-10';
+---
+
+<img
+  src="/logo.png"
+  alt={alt}
+  class={`${sizeClass} shrink-0 object-contain`}
+  width={size === 'sm' ? 32 : 40}
+  height={size === 'sm' ? 32 : 40}
+  decoding="async"
+/>

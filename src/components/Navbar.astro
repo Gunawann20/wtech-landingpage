@@ -1,13 +1,12 @@
 ---
 import MobileMenu from './MobileMenu.astro';
+import Logo from './Logo.astro';
 ---
 
 <nav class="absolute top-0 left-0 right-0 z-[100] bg-[#F8FAFC]/80 backdrop-blur-md border-b border-[#0F172A]/5 px-4 sm:px-6 lg:px-12 py-4 lg:py-6">
   <div class="container mx-auto flex justify-between items-center">
     <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-      <div class="w-8 h-8 sm:w-10 sm:h-10 bg-[#0F172A] squircle flex items-center justify-center shrink-0">
-        <span class="text-white font-manrope font-black text-base sm:text-xl">W</span>
-      </div>
+      <Logo />
       <span class="font-manrope font-black text-lg sm:text-2xl tracking-tighter truncate">
         WTECH <span class="text-[#10B981]">INNOVATIONS</span>
       </span>
