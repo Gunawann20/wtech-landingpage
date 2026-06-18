@@ -1,0 +1,31 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogHero from '../../components/blog/BlogHero.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import { getAllPosts } from '../../lib/blog';
+import { blogListingJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../../lib/seo';
+
+const posts = getAllPosts();
+---
+
+<PageLayout
+  title="Blog"
+  description="Engineering insights on enterprise software, AI automation, API architecture, and legacy modernization from the WTech Innovations team."
+  path="/blog"
+  jsonLd={[websiteJsonLd(), blogListingJsonLd(posts), breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])]}
+>
+  <BlogHero
+    title="ENGINEERING INSIGHTS"
+    description="Deep dives on building scalable software, shipping AI to production, and modernizing enterprise systems."
+  />
+
+  <section class="pb-16 sm:pb-24 lg:pb-32" aria-label="Blog posts">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {posts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>

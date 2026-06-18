@@ -1,0 +1,22 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  description?: string;
+}
+
+const { label = 'Insights', title, description } = Astro.props;
+---
+
+<header class="pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 relative overflow-hidden">
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-10">
+    <span class="text-[80px] sm:text-[140px] lg:text-[240px] font-black text-[#0F172A]/[0.03] tracking-tighter font-manrope uppercase">Blog</span>
+  </div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
+    <span class="text-[#10B981] font-black text-xs sm:text-sm tracking-[0.5em] uppercase mb-4 block">{label}</span>
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black font-manrope tracking-tighter mb-6">{title}</h1>
+    {description && (
+      <p class="text-base sm:text-lg lg:text-xl text-[#0F172A]/60 leading-relaxed max-w-2xl">{description}</p>
+    )}
+  </div>
+</header>

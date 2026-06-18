@@ -1,0 +1,64 @@
+---
+import { blogPosts } from '../../data/blog-posts';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogPostHeader from '../../components/blog/BlogPostHeader.astro';
+import BlogAuthorCard from '../../components/blog/BlogAuthorCard.astro';
+import BlogRelatedPosts from '../../components/blog/BlogRelatedPosts.astro';
+import { getRelatedPosts } from '../../lib/blog';
+import { articleJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const relatedPosts = getRelatedPosts(post);
+---
+
+<PageLayout
+  title={post.title}
+  description={post.description}
+  path={`/blog/${post.slug}`}
+  image={post.image}
+  type="article"
+  publishedTime={new Date(post.pubDate).toISOString()}
+  modifiedTime={new Date(post.updatedDate ?? post.pubDate).toISOString()}
+  author={post.author}
+  tags={post.tags}
+  jsonLd={[
+    websiteJsonLd(),
+    articleJsonLd(post),
+    breadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+      { name: post.title, path: `/blog/${post.slug}` },
+    ]),
+  ]}
+>
+  <article itemscope itemtype="https://schema.org/BlogPosting">
+    <BlogPostHeader post={post} />
+
+    <div class="pb-16 sm:pb-24 lg:pb-32">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-12 max-w-3xl">
+        <div class="blog-prose" set:html={post.content} />
+
+        <BlogAuthorCard post={post} />
+
+        <footer class="mt-12 pt-10 border-t border-[#0F172A]/10">
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-3 text-[#0F172A] font-black text-xs tracking-[0.3em] uppercase hover:gap-5 transition-all group"
+          >
+            <i class="ti ti-arrow-left text-[#10B981] group-hover:-translate-x-1 transition-transform"></i>
+            Back to Blog
+          </a>
+        </footer>
+
+        <BlogRelatedPosts posts={relatedPosts} />
+      </div>
+    </div>
+  </article>
+</PageLayout>

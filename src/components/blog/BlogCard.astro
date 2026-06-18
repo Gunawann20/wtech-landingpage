@@ -1,0 +1,48 @@
+---
+import type { BlogPost } from '../../types/blog';
+import { formatBlogDate } from '../../lib/blog';
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const formattedDate = formatBlogDate(post.pubDate);
+---
+
+<article class="group">
+  <a href={`/blog/${post.slug}`} class="block bg-white border border-[#0F172A]/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0F172A]/10 hover:-translate-y-1 transition-all duration-500 h-full">
+    <div class="aspect-[16/9] overflow-hidden bg-[#F1F5F9]">
+      <img
+        src={post.image}
+        alt=""
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="p-6 sm:p-8">
+      <div class="flex flex-wrap items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-[#0F172A]/40">
+        <time datetime={post.pubDate}>{formattedDate}</time>
+        <span aria-hidden="true">·</span>
+        <span>{post.readTime} min read</span>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-black font-manrope tracking-tighter mb-3 group-hover:text-[#10B981] transition-colors">
+        {post.title}
+      </h2>
+      <p class="text-[#0F172A]/60 leading-relaxed mb-6 line-clamp-3">{post.description}</p>
+      {post.tags.length > 0 && (
+        <ul class="flex flex-wrap gap-2" aria-label="Tags">
+          {post.tags.map((tag) => (
+            <li class="px-3 py-1 bg-[#10B981]/10 text-[#10B981] text-[10px] font-black uppercase tracking-widest rounded-full">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )}
+      <span class="mt-6 inline-flex items-center gap-2 text-[#0F172A] font-black text-xs tracking-[0.3em] uppercase group-hover:gap-4 transition-all">
+        Read Article <i class="ti ti-arrow-right text-[#10B981]"></i>
+      </span>
+    </div>
+  </a>
+</article>

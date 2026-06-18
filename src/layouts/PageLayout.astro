@@ -1,0 +1,22 @@
+---
+import Layout from './Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import type { SeoProps } from '../lib/seo';
+
+interface Props extends SeoProps {
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const seo = Astro.props;
+---
+
+<Layout {...seo}>
+  <div class="bg-[#F8FAFC] text-[#0F172A] font-['Inter'] selection:bg-[#10B981] selection:text-white min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </div>
+</Layout>

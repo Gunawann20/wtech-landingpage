@@ -12,9 +12,16 @@ import Testimonial from '../components/Testimonial.astro';
 import TechStack from '../components/TechStack.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import { websiteJsonLd } from '../lib/seo';
 ---
 
-<Layout title="WTECH INNOVATIONS">
+<Layout
+  title={site.title}
+  description={site.description}
+  path="/"
+  jsonLd={websiteJsonLd()}
+>
   <div class="bg-[#F8FAFC] text-[#0F172A] font-['Inter'] selection:bg-[#10B981] selection:text-white">
     <Navbar />
     <Hero />
