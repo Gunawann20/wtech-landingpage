@@ -116,6 +116,26 @@
   color: #0F172A;
 }
 
+.blog-prose-editorial {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.blog-prose-editorial :where(h2, h3, h4) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 2rem;
+}
+
+.blog-prose-editorial h2 {
+  font-size: 1.375rem;
+}
+
+.blog-prose-editorial p,
+.blog-prose-editorial li {
+  color: rgba(15, 23, 42, 0.62);
+}
+
 html,
 body {
   margin: 0;

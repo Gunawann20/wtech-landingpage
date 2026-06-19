@@ -1,0 +1,139 @@
+---
+import type { BlogPost } from '../../types/blog';
+import { formatBlogDateShort } from '../../lib/blog';
+import { absoluteUrl } from '../../lib/seo';
+
+interface Props {
+  post: BlogPost;
+  relatedPosts: BlogPost[];
+}
+
+const { post, relatedPosts } = Astro.props;
+const shareUrl = encodeURIComponent(absoluteUrl(`/blog/${post.slug}`));
+const shareTitle = encodeURIComponent(post.title);
+const shareLinks = [
+  { label: 'Instagram', icon: 'ti-brand-instagram', href: null },
+  {
+    label: 'X',
+    icon: 'ti-brand-x',
+    href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`,
+  },
+  {
+    label: 'Facebook',
+    icon: 'ti-brand-facebook',
+    href: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+  },
+  {
+    label: 'LinkedIn',
+    icon: 'ti-brand-linkedin',
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
+  },
+];
+---
+
+<aside class="lg:pt-1" aria-label="Article sidebar">
+  <section class="mb-10 pb-10 border-b border-[#0F172A]/8">
+    <h2 class="text-base font-semibold text-[#0F172A] mb-4">Share on Social Media</h2>
+    <div class="flex items-center gap-5">
+      {shareLinks.map((link) =>
+        link.href ? (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-[#64748B] hover:text-[#0F172A] transition-colors"
+            aria-label={`Share on ${link.label}`}
+          >
+            <i class={`ti ${link.icon} text-[22px]`}></i>
+          </a>
+        ) : (
+          <span class="text-[#64748B]" aria-hidden="true">
+            <i class={`ti ${link.icon} text-[22px]`}></i>
+          </span>
+        ),
+      )}
+      <button
+        type="button"
+        class="text-[#64748B] hover:text-[#0F172A] transition-colors"
+        aria-label="Copy link"
+        data-copy-link={absoluteUrl(`/blog/${post.slug}`)}
+        id="copy-share-link"
+      >
+        <i class="ti ti-share-3 text-[22px]"></i>
+      </button>
+    </div>
+  </section>
+
+  {post.tags.length > 0 && (
+    <section class="mb-10 pb-10 border-b border-[#0F172A]/8">
+      <h2 class="text-base font-semibold text-[#0F172A] mb-4">All Tags</h2>
+      <ul class="flex flex-wrap gap-2.5" aria-label="Tags">
+        {post.tags.map((tag) => (
+          <li class="px-3.5 py-1.5 bg-[#F1F5F9] text-[#475569] text-xs font-medium rounded-full">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {relatedPosts.length > 0 && (
+    <section class="mb-10">
+      <h2 class="text-base font-semibold text-[#0F172A] mb-5">Related Blogs</h2>
+      <ul class="space-y-6">
+        {relatedPosts.map((related) => (
+          <li>
+            <a href={`/blog/${related.slug}`} class="group flex gap-3.5 items-start">
+              <img
+                src={related.image}
+                alt=""
+                class="w-[84px] h-[84px] rounded-2xl object-cover shrink-0 bg-[#F1F5F9]"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="min-w-0 flex-1 pt-0.5">
+                <time
+                  datetime={related.pubDate}
+                  class="inline-flex items-center gap-1.5 text-xs text-[#94A3B8] mb-2"
+                >
+                  <i class="ti ti-calendar text-sm" aria-hidden="true"></i>
+                  {formatBlogDateShort(related.pubDate)}
+                </time>
+                <p class="text-[15px] font-semibold font-manrope leading-snug text-[#0F172A] group-hover:text-[#10B981] transition-colors line-clamp-3">
+                  {related.title}
+                </p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {post.tags.length > 1 && (
+    <section>
+      <h2 class="text-base font-semibold text-[#0F172A] mb-4">All Tags</h2>
+      <ul class="flex flex-wrap gap-2.5" aria-label="Additional tags">
+        {post.tags.slice(1).map((tag) => (
+          <li class="px-3.5 py-1.5 bg-[#F1F5F9] text-[#475569] text-xs font-medium rounded-full">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</aside>
+
+<script>
+  const copyBtn = document.getElementById('copy-share-link');
+  copyBtn?.addEventListener('click', async () => {
+    const url = copyBtn.getAttribute('data-copy-link');
+    if (!url) return;
+    try {
+      await navigator.clipboard.writeText(url);
+      copyBtn.classList.add('text-[#10B981]');
+    } catch {
+      /* clipboard unavailable */
+    }
+  });
+</script>

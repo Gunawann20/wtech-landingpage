@@ -25,3 +25,11 @@ export function formatBlogDate(date: string) {
     day: 'numeric',
   });
 }
+
+export function formatBlogDateShort(date: string) {
+  return new Date(date).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}

@@ -2,8 +2,7 @@
 import { blogPosts } from '../../data/blog-posts';
 import PageLayout from '../../layouts/PageLayout.astro';
 import BlogPostHeader from '../../components/blog/BlogPostHeader.astro';
-import BlogAuthorCard from '../../components/blog/BlogAuthorCard.astro';
-import BlogRelatedPosts from '../../components/blog/BlogRelatedPosts.astro';
+import BlogPostSidebar from '../../components/blog/BlogPostSidebar.astro';
 import { getRelatedPosts } from '../../lib/blog';
 import { articleJsonLd, breadcrumbJsonLd, websiteJsonLd } from '../../lib/seo';
 
@@ -38,26 +37,41 @@ const relatedPosts = getRelatedPosts(post);
     ]),
   ]}
 >
-  <article itemscope itemtype="https://schema.org/BlogPosting">
-    <BlogPostHeader post={post} />
+  <article itemscope itemtype="https://schema.org/BlogPosting" class="bg-white">
+    <div class="relative pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 lg:pb-32 overflow-hidden">
+      <div
+        class="pointer-events-none absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-[#10B981]/10 blur-3xl"
+        aria-hidden="true"
+      ></div>
 
-    <div class="pb-16 sm:pb-24 lg:pb-32">
-      <div class="container mx-auto px-4 sm:px-6 lg:px-12 max-w-4xl">
-        <div class="blog-prose" set:html={post.content} />
+      <div class="container mx-auto px-4 sm:px-6 lg:px-12 max-w-[1200px] relative">
+        <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px] lg:gap-12 xl:gap-16 items-start">
+          <div class="min-w-0">
+            <BlogPostHeader post={post} />
 
-        <BlogAuthorCard post={post} />
+            <div class="blog-prose blog-prose-editorial" set:html={post.content} />
 
-        <footer class="mt-12 pt-10 border-t border-[#0F172A]/10">
-          <a
-            href="/blog"
-            class="inline-flex items-center gap-3 text-[#0F172A] font-black text-xs tracking-[0.3em] uppercase hover:gap-5 transition-all group"
-          >
-            <i class="ti ti-arrow-left text-[#10B981] group-hover:-translate-x-1 transition-transform"></i>
-            Back to Blog
-          </a>
-        </footer>
+            <footer class="mt-14 pt-8 border-t border-[#0F172A]/8">
+              <a
+                href="/blog"
+                class="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] hover:text-[#0F172A] transition-colors group"
+              >
+                <i class="ti ti-arrow-left text-[#10B981] group-hover:-translate-x-0.5 transition-transform"></i>
+                Back to Blog
+              </a>
+            </footer>
 
-        <BlogRelatedPosts posts={relatedPosts} />
+            <div class="mt-12 lg:hidden border-t border-[#0F172A]/8 pt-10">
+              <BlogPostSidebar post={post} relatedPosts={relatedPosts} />
+            </div>
+          </div>
+
+          <div class="hidden lg:block min-w-0">
+            <div class="sticky top-28">
+              <BlogPostSidebar post={post} relatedPosts={relatedPosts} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </article>

@@ -1,22 +1,38 @@
 ---
 interface Props {
   items: { label: string; href: string }[];
+  variant?: 'default' | 'editorial';
 }
 
-const { items } = Astro.props;
+const { items, variant = 'default' } = Astro.props;
 ---
 
-<nav aria-label="Breadcrumb" class="mb-8">
-  <ol class="flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#0F172A]/40">
-    {items.map((item, index) => (
-      <li class="flex items-center gap-2">
-        {index > 0 && <span aria-hidden="true" class="text-[#0F172A]/20">/</span>}
-        {index === items.length - 1 ? (
-          <span class="text-[#0F172A]" aria-current="page">{item.label}</span>
-        ) : (
-          <a href={item.href} class="hover:text-[#10B981] transition-colors">{item.label}</a>
-        )}
-      </li>
-    ))}
-  </ol>
+<nav aria-label="Breadcrumb" class="mb-6">
+  {variant === 'editorial' ? (
+    <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[#0F172A]/45">
+      {items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index > 0 && <span aria-hidden="true">•</span>}
+          {index === items.length - 1 ? (
+            <span class="text-[#0F172A]/70" aria-current="page">{item.label}</span>
+          ) : (
+            <a href={item.href} class="hover:text-[#0F172A] transition-colors">{item.label}</a>
+          )}
+        </li>
+      ))}
+    </ol>
+  ) : (
+    <ol class="flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#0F172A]/40">
+      {items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index > 0 && <span aria-hidden="true" class="text-[#0F172A]/20">/</span>}
+          {index === items.length - 1 ? (
+            <span class="text-[#0F172A]" aria-current="page">{item.label}</span>
+          ) : (
+            <a href={item.href} class="hover:text-[#10B981] transition-colors">{item.label}</a>
+          )}
+        </li>
+      ))}
+    </ol>
+  )}
 </nav>
