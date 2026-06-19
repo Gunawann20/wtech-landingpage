@@ -1,3 +1,7 @@
+---
+import { site } from '../config/site';
+---
+
 <button
   id="mobile-menu-btn"
   type="button"
@@ -20,9 +24,14 @@
     <a href="/#portfolio" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Portfolio</a>
     <a href="/#stats" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Stats</a>
     <a href="/blog" class="mobile-nav-link font-bold text-sm tracking-widest uppercase py-3 border-b border-[#0F172A]/5 hover:text-[#10B981] transition-colors">Blog</a>
-    <button class="mt-2 bg-[#0F172A] text-white px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all w-full">
+    <a
+      href={site.whatsapp}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-2 bg-[#0F172A] text-white px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all w-full text-center"
+    >
       CONSULTATION
-    </button>
+    </a>
   </nav>
 </div>
 

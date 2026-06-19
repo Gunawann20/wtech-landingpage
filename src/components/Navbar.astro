@@ -1,6 +1,7 @@
 ---
 import MobileMenu from './MobileMenu.astro';
 import Logo from './Logo.astro';
+import { site } from '../config/site';
 ---
 
 <nav class="absolute top-0 left-0 right-0 z-[100] bg-[#F8FAFC]/80 backdrop-blur-md border-b border-[#0F172A]/5 px-4 sm:px-6 lg:px-12 py-4 lg:py-6">
@@ -19,9 +20,14 @@ import Logo from './Logo.astro';
       <a href="/blog" class="hover:text-[#10B981] transition-colors" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>Blog</a>
     </div>
     <div class="flex items-center gap-2 sm:gap-4">
-      <button class="hidden sm:inline-flex bg-[#0F172A] text-white px-6 lg:px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all text-sm">
+      <a
+        href={site.whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden sm:inline-flex bg-[#0F172A] text-white px-6 lg:px-8 py-3 font-bold tracking-tight rounded-sm hover:bg-[#10B981] transition-all text-sm"
+      >
         CONSULTATION
-      </button>
+      </a>
       <MobileMenu />
     </div>
   </div>
