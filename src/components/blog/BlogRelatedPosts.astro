@@ -12,9 +12,12 @@ const { posts } = Astro.props;
 {posts.length > 0 && (
   <section class="mt-16 sm:mt-20 pt-12 border-t border-[#0F172A]/10" aria-label="Related articles">
     <h2 class="text-2xl sm:text-3xl font-black font-manrope tracking-tighter mb-8">Related Articles</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    <div class:list={[
+      'grid gap-6 sm:gap-8',
+      posts.length === 1 ? 'grid-cols-1 max-w-xl' : 'grid-cols-1 sm:grid-cols-2',
+    ]}>
       {posts.map((post) => (
-        <BlogCard post={post} />
+        <BlogCard post={post} compact />
       ))}
     </div>
   </section>

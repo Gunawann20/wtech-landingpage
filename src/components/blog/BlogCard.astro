@@ -4,15 +4,16 @@ import { formatBlogDate } from '../../lib/blog';
 
 interface Props {
   post: BlogPost;
+  compact?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, compact = false } = Astro.props;
 const formattedDate = formatBlogDate(post.pubDate);
 ---
 
 <article class="group">
   <a href={`/blog/${post.slug}`} class="block bg-white border border-[#0F172A]/10 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0F172A]/10 hover:-translate-y-1 transition-all duration-500 h-full">
-    <div class="aspect-[16/9] overflow-hidden bg-[#F1F5F9]">
+    <div class:list={['overflow-hidden bg-[#F1F5F9]', compact ? 'aspect-[2/1]' : 'aspect-[16/9]']}>
       <img
         src={post.image}
         alt=""
@@ -21,26 +22,35 @@ const formattedDate = formatBlogDate(post.pubDate);
         decoding="async"
       />
     </div>
-    <div class="p-6 sm:p-8">
-      <div class="flex flex-wrap items-center gap-3 mb-4 text-[10px] font-black uppercase tracking-widest text-[#0F172A]/40">
+    <div class:list={[compact ? 'p-5' : 'p-6 sm:p-8']}>
+      <div class="flex flex-wrap items-center gap-3 mb-3 text-[10px] font-black uppercase tracking-widest text-[#0F172A]/40">
         <time datetime={post.pubDate}>{formattedDate}</time>
         <span aria-hidden="true">·</span>
         <span>{post.readTime} min read</span>
       </div>
-      <h2 class="text-xl sm:text-2xl font-black font-manrope tracking-tighter mb-3 group-hover:text-[#10B981] transition-colors">
+      <h2 class:list={[
+        'font-black font-manrope tracking-tighter mb-2 group-hover:text-[#10B981] transition-colors',
+        compact ? 'text-lg leading-snug' : 'text-xl sm:text-2xl mb-3',
+      ]}>
         {post.title}
       </h2>
-      <p class="text-[#0F172A]/60 leading-relaxed mb-6 line-clamp-3">{post.description}</p>
+      <p class:list={[
+        'text-[#0F172A]/60 leading-relaxed',
+        compact ? 'text-sm line-clamp-2 mb-4' : 'mb-6 line-clamp-3',
+      ]}>{post.description}</p>
       {post.tags.length > 0 && (
         <ul class="flex flex-wrap gap-2" aria-label="Tags">
-          {post.tags.map((tag) => (
+          {post.tags.slice(0, compact ? 2 : post.tags.length).map((tag) => (
             <li class="px-3 py-1 bg-[#10B981]/10 text-[#10B981] text-[10px] font-black uppercase tracking-widest rounded-full">
               {tag}
             </li>
           ))}
         </ul>
       )}
-      <span class="mt-6 inline-flex items-center gap-2 text-[#0F172A] font-black text-xs tracking-[0.3em] uppercase group-hover:gap-4 transition-all">
+      <span class:list={[
+        'inline-flex items-center gap-2 text-[#0F172A] font-black text-xs tracking-[0.3em] uppercase group-hover:gap-4 transition-all',
+        compact ? 'mt-4' : 'mt-6',
+      ]}>
         Read Article <i class="ti ti-arrow-right text-[#10B981]"></i>
       </span>
     </div>
