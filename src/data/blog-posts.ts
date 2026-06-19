@@ -2,6 +2,59 @@ import type { BlogPost } from '../types/blog';
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'modular-monolith-jembatan-microservices',
+    title: 'Modular Monolith: Jembatan Strategis Menuju Arsitektur Microservices',
+    description:
+      'Pelajari mengapa Modular Monolith lebih bijak daripada microservices prematur — kontrak modul, isolasi database, architecture test, dan jalur migrasi ke event-driven.',
+    pubDate: '2026-06-19',
+    author: 'Gunawan',
+    authorRole: 'Software Engineer',
+    authorAvatar: '',
+    tags: ['Architecture', 'Microservices', 'Strategy'],
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&w=1200&q=80&fit=crop',
+    readTime: 6,
+    content: `
+      <p>Dalam dunia pengembangan perangkat lunak saat ini, banyak pengembang sering kali terjebak dalam tren untuk langsung menggunakan arsitektur <strong>Microservices</strong> sejak awal sebuah proyek dimulai. Padahal, bagi bisnis yang baru berkembang, pendekatan ini sering kali menjadi over-engineering yang justru menghambat efisiensi. Sebagai solusi alternatif yang lebih bijak, <strong>Modular Monolith</strong> hadir sebagai titik tengah yang menawarkan kemudahan pengelolaan monolit namun dengan struktur yang siap untuk masa depan.</p>
+      <h2>Mengapa Menghindari Monolit Tradisional dan Microservices Prematur?</h2>
+      <p><strong>Monolit Tradisional</strong> sering kali berakhir menjadi spaghetti code. Masalah utamanya meliputi:</p>
+      <ul>
+        <li>Tidak adanya batasan akses antar domain bisnis, sehingga perubahan pada satu fitur dapat merusak fitur lainnya (<em>high coupling</em>)</li>
+        <li>Database yang sangat tightly coupled — ratusan tabel saling berkaitan melalui foreign key dan join yang rumit, sehingga sulit memisahkan modul di kemudian hari</li>
+      </ul>
+      <p>Di sisi lain, langsung melompat ke <strong>Microservices</strong> membawa kompleksitas infrastruktur yang tinggi:</p>
+      <ul>
+        <li>Kebutuhan Kubernetes, service discovery, hingga API Gateway</li>
+        <li>Komunikasi antar service melalui jaringan (HTTP/gRPC) menimbulkan network overhead — lebih lambat dibanding pemanggilan kode langsung</li>
+        <li>Pengelolaan transaksi menjadi jauh lebih sulit karena memerlukan implementasi seperti <strong>Saga Pattern</strong> untuk menangani distributed transaction</li>
+      </ul>
+      <h2>Konsep Inti Modular Monolith</h2>
+      <p><strong>Modular Monolith</strong> adalah aplikasi yang tetap berada dalam satu unit deployment, namun secara internal memiliki <em>logical boundary</em> atau batasan logika yang sangat ketat antar modulnya. Tujuannya adalah memastikan setiap domain bisnis — seperti produk, order, atau pembayaran — bersifat independen secara logika.</p>
+      <h2>Strategi Kontrak dan Implementasi</h2>
+      <p>Strategi utama dalam Modular Monolith adalah membagi setiap domain bisnis menjadi dua bagian: <strong>Kontrak (Client)</strong> dan <strong>Implementasi</strong>.</p>
+      <ul>
+        <li><strong>Kontrak/Interface:</strong> Berisi definisi fungsi atau metode yang boleh diakses oleh modul lain. Hanya fitur yang memang perlu diekspos keluar yang dimasukkan ke dalam kontrak ini.</li>
+        <li><strong>Implementasi:</strong> Berisi logika bisnis yang sebenarnya. Modul lain tidak diperbolehkan mengakses kelas implementasi secara langsung, melainkan harus melalui kontrak yang telah disepakati.</li>
+      </ul>
+      <p>Dengan cara ini, modul Order misalnya tidak perlu tahu bagaimana modul Produk bekerja; ia cukup memanggil metode <em>get product</em> atau <em>reduce stock</em> melalui kontrak Produk.</p>
+      <h2>Isolasi Database: Kunci Kemudahan Migrasi</h2>
+      <p>Salah satu aturan paling krusial dalam Modular Monolith adalah <strong>tidak boleh ada relasi tabel (foreign key) antar modul</strong>, meskipun mereka berada dalam database yang sama. Jika modul Order membutuhkan data Customer, ia tidak boleh melakukan join SQL secara langsung. Sebaliknya, modul Order harus mengambil ID dari databasenya sendiri, lalu memanggil kontrak modul Customer untuk mendapatkan detail datanya.</p>
+      <p>Pendekatan ini memastikan bahwa jika suatu saat sebuah modul harus dipindahkan ke database atau teknologi yang berbeda (misalnya dari MySQL ke PostgreSQL), modul lain tidak akan terpengaruh karena tidak ada ketergantungan di level basis data.</p>
+      <h2>Menjaga Integritas Arsitektur dengan Testing</h2>
+      <p>Tantangan terbesar dalam monolit adalah developer yang mungkin langsung memanggil modul lain tanpa lewat kontrak karena kodenya berada di satu proyek yang sama. Untuk mencegah hal ini, diperlukan <strong>Architecture Test</strong> menggunakan alat seperti ArchUnit (untuk Java) yang secara otomatis akan menggagalkan unit test jika terdeteksi adanya pelanggaran batasan antar modul.</p>
+      <h2>Jalan Mulus Menuju Microservices dan Event-Driven</h2>
+      <p>Modular Monolith adalah persiapan terbaik untuk skala besar. Ketika sebuah modul (misalnya modul Pembayaran) mulai mengalami trafik yang sangat tinggi, kita bisa dengan mudah mengeluarkannya menjadi Microservice terpisah. Prosesnya sederhana:</p>
+      <ol>
+        <li>Pindahkan kode modul tersebut ke service baru</li>
+        <li>Ubah implementasi kontrak di aplikasi monolit yang tadinya memanggil kode internal menjadi pemanggilan API (HTTP/gRPC) ke service baru tersebut</li>
+        <li>Modul lain yang menggunakan kontrak tersebut tidak perlu diubah kodenya sama sekali</li>
+      </ol>
+      <p>Selain itu, arsitektur ini juga mendukung model <strong>Event-Driven</strong>. Sebagai contoh, modul Notifikasi yang tadinya dipanggil langsung secara sinkron dapat diubah implementasinya untuk mengirim pesan melalui Kafka atau RabbitMQ tanpa merubah logika di modul pengirim (seperti modul Order).</p>
+      <h2>Kesimpulan</h2>
+      <p>Modular Monolith memungkinkan tim untuk tetap fokus pada nilai bisnis tanpa terjebak dalam kerumitan infrastruktur Microservices di awal proyek. Dengan desain yang rapi, batasan yang ketat, dan penggunaan kontrak, aplikasi monolit tetap bisa memiliki performa yang bagus, stabil, serta memberikan fleksibilitas penuh untuk bertransformasi menjadi Microservices di masa depan jika memang benar-benar dibutuhkan.</p>
+      <p>Di WTech Innovations, kami membantu tim merancang arsitektur yang tumbuh bersama bisnis — dari Modular Monolith yang terstruktur hingga migrasi microservices yang terukur, tanpa big-bang rewrite yang merisiko operasional.</p>
+    `,
+  },
+  {
     slug: 'scaling-enterprise-apis',
     title: 'Scaling Enterprise APIs Without Breaking Your Architecture',
     description:
