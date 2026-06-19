@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wtech.innovations/sitemap-index.xml
+Sitemap: https://wtechinnovations.vercel.app/sitemap-index.xml

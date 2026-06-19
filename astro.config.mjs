@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://wtech.innovations',
+  site: 'https://wtechinnovations.vercel.app',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

@@ -3,7 +3,7 @@ export const site = {
   title: 'WTECH INNOVATIONS',
   description:
     'Transforming complex ideas into intelligent digital solutions through custom engineering and AI-driven automation.',
-  url: 'https://wtech.innovations',
+  url: 'https://wtechinnovations.vercel.app',
   locale: 'en_US',
   twitter: '@wtechinnovations',
 } as const;
